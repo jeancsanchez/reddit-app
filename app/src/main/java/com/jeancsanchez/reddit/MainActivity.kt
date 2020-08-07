@@ -1,5 +1,6 @@
 package com.jeancsanchez.reddit
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,6 +16,12 @@ class MainActivity : AppCompatActivity() {
         recyclerPosts?.apply {
             adapter = postAdapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        }
+
+        postAdapter.postClickListener = { post ->
+            val intent = Intent(this, PostDetailActivity::class.java)
+            intent.putExtra(PostDetailActivity.INTENT_POST_DETAIL, post)
+            startActivity(intent)
         }
     }
 

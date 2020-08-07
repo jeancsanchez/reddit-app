@@ -17,13 +17,17 @@ class PostAdapter : RecyclerView.Adapter<PostAdapter.ViewHolder>() {
             notifyDataSetChanged()
         }
 
+    var postClickListener: ((Post) -> Unit)? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_post, parent, false)
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(postList[position])
+        val post = postList[position]
+        holder.itemView.setOnClickListener { postClickListener?.invoke(post) }
+        holder.bind(post)
     }
 
     override fun getItemCount(): Int = postList.size
