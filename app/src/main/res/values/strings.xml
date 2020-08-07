@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Reddit</string>
 
-    <string name="post_author">Posted by %s %s ago</string>
+    <string name="label_post_author">Posted by %s at %s</string>
     <string name="post_thumbnail_description">Thumbnail</string>
     <string name="post_play_button_description">Post play button</string>
 </resources>
