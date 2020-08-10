@@ -4,7 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.jeancsanchez.reddit.data.ResponseWrapper
+import com.jeancsanchez.reddit.data.Rest
 import kotlinx.android.synthetic.main.activity_main.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
     private val postAdapter by lazy { PostAdapter() }
@@ -28,20 +33,21 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        postAdapter.postList = listOf(
-            Post(
-                isVideo = true,
-                videoThumb = "https://i.ytimg.com/vi/_7lc9Go9O2g/hqdefault.jpg",
-                title = "Video top",
-                author = "Me"
-            ),
-            Post(
-                isImage = true,
-                imageUrl = "https://i.redd.it/qivn8ygjndf51.jpg",
-                title = "Image top",
-                author = "Me"
-            ),
-            Post(title = "Post top", author = "Me")
-        )
+        Rest.getAPI()
+            .getPostsByTheme("PublicFreakout")
+            .enqueue(object : Callback<ResponseWrapper> {
+                override fun onResponse(
+                    call: Call<ResponseWrapper>,
+                    response: Response<ResponseWrapper>
+                ) {
+                    response.body()?.let { wrapper ->
+                        postAdapter.postList = wrapper.data.children.map { it.data }
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseWrapper>, t: Throwable) {
+                    t.printStackTrace()
+                }
+            })
     }
 }

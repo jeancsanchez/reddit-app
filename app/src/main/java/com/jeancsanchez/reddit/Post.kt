@@ -2,12 +2,17 @@ package com.jeancsanchez.reddit
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
 import java.util.*
 
 data class Post(
+    @SerializedName("is_video")
     val isVideo: Boolean = false,
+
     val isImage: Boolean = false,
     val isLink: Boolean = false,
+
+    @SerializedName("thumbnail")
     val videoThumb: String? = null,
     val imageUrl: String? = null,
     val link: String? = null,
