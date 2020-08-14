@@ -49,7 +49,7 @@
             android:layout_width="0dp"
             android:layout_height="200dp"
             android:layout_marginTop="16dp"
-            android:contentDescription="@string/post_thumbnail_description"
+            android:contentDescription="@string/content_description_post_thumbnail"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

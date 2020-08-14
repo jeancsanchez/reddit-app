@@ -2,11 +2,13 @@ package com.jeancsanchez.reddit
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jeancsanchez.reddit.data.ResponseWrapper
 import com.jeancsanchez.reddit.data.Rest
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.partial_base_layout.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -32,6 +34,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        loading?.visibility = View.VISIBLE
 
         Rest.getAPI()
             .getPostsByTheme("PublicFreakout")
@@ -40,13 +43,17 @@ class MainActivity : AppCompatActivity() {
                     call: Call<ResponseWrapper>,
                     response: Response<ResponseWrapper>
                 ) {
+                    loading?.visibility = View.GONE
+                    linearError?.visibility = View.GONE
+
                     response.body()?.let { wrapper ->
                         postAdapter.postList = wrapper.data.children.map { it.data }
                     }
                 }
 
                 override fun onFailure(call: Call<ResponseWrapper>, t: Throwable) {
-                    t.printStackTrace()
+                    loading?.visibility = View.GONE
+                    linearError?.visibility = View.VISIBLE
                 }
             })
     }
